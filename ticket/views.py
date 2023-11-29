@@ -96,6 +96,7 @@ def assign_ticket(request, ticket_id):
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
             return redirect('assign-ticket')  # Check this out later
+    
     else:
         form = AssignTicketForm(instance=ticket)
         form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
@@ -116,6 +117,7 @@ def ticket_queue(request):
 
 def resolve_ticket(request ,  ticket_id):
     ticket = Ticket.objects.get(ticket_id = ticket_id)
+    
     if request.method == 'POST':
         rs = request.POST.get('rs')
         ticket.resolution_steps = rs
