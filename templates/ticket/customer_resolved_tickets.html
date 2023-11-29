@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% if tickets %}
+    {% for ticket in tickets %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ticket.ticket_title}}</h5>
+                <p class="card-text">
+                    Ticket id: #{{ticket.ticket_id}}<br>
+                    {% if ticket.status == 'Pending' %}
+                    <span class="badge bg-primary text-white">Pending</span>
+                    {% elif ticket.status == 'Active' %}
+                    <span class="badge bg-success text-white">Active</span>
+                    {% elif ticket.status == 'Resolved' %}
+                    <span class="badge bg-danger text-white">Resolved</span>
+                    {% endif %}
+                </p>
+            </div>
+
+            <a href="{% url 'ticket-details' ticket.ticket_id %}" class="btn btn-primary btn-sm">View Details</a>
+            <div class="card-footer">
+                <small class="text-muted">Created {{ticket.created_on}}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="card-text">
+                    No tickets available.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock content %}
